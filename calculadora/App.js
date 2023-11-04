@@ -3,44 +3,49 @@ import { StatusBar, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity}
 
 export default function App() {
 
-const [N1, setN1] = useState('');
-const [N2, setN2] = useState('');
-const [result, setresult] = useState(0);
-const [opr, setopr] = useState('');
+const [N1, setN1] = useState(0)
+const [N2, setN2] = useState(0)
+const [result, setresult] = useState(0)
+const [opr, setopr] = useState('')
 
-const change = () =>{
-  if (change === '+') {
-    setopr ('+')
+useEffect(()=>{
+  setN1(parseFloat(N1))
+  setN2(parseFloat(N2))
+  setN1 (N1)
+  setN2 (N2)
+}, [])
+
+function change1() {
+  setopr ('+')
+}
+function change2() {
+  setopr ('-')
+}
+function change3() {
+  setopr ('*')
+}
+function change4() {
+  setopr ('/')
+}
+
+function calc() {
+  if (opr == '+') {
+    setresult (N1 + N2);
   }
-  else if (change === '-'){
-    setopr('-')
+  else if (opr == '-') {
+    setresult (N1 - N2);
   }
-  else if (change === '*'){
-    setopr('*')
+  else if (opr == '*') {
+    setresult (N1 * N2);
   }
-  else if (change === '/'){
-    setopr('/')
+  else if (opr == '/') {
+    setresult (N1 / N2);
   }
 }
 
-const calc = () => {
-  if (opr === '+') {
-    return parseFloat(N1) + parseFloat(N2);
-  }
-  else if (opr === '-'){
-    return parseFloat(N1) - parseFloat(N2);
-  }
-  else if (opr === '*'){
-    return parseFloat(N1) * parseFloat(N2);
-  }
-  else if (opr === '/'){
-    return parseFloat(N1) / parseFloat(N2);
-  }
-}
-
-useEffect(() =>{
-  setresult(calc())
-}, [N1, N2, opr]);
+useEffect(() => {
+  setresult (result)
+})
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,17 +56,17 @@ useEffect(() =>{
 
         <TextInput
         placeholder='N1'
-        value={N1}
-        onChange={(e) => setN1(+e.target.value)}
-        style={styles.textinput1}/>
+        onChangeText={(N1) => setN1(Number(N1))}
+        keyboardType='numeric'
+        style={styles.textinput}/>
 
         <Text style={styles.opr}>{opr}</Text>
 
         <TextInput
         placeholder='N2'
-        value={N2}
-        onChange={(e) => setN2(+e.target.value)}
-        style={styles.textinput2}/>
+        onChangeText={(N2) => setN2(Number(N2))}
+        keyboardType='numeric'
+        style={styles.textinput}/>
 
         <TouchableOpacity style={styles.igual} onPress={calc}>
           <Text style={styles.text}>=</Text>
@@ -71,27 +76,30 @@ useEffect(() =>{
 
       <SafeAreaView style={styles.btnview}>
 
-        <TouchableOpacity style={styles.oprbnt} onPress={change}>
+        <TouchableOpacity style={styles.oprbnt} onPress={change1}>
           <Text style={styles.text}> + </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.oprbnt} onPress={change}>
+        <TouchableOpacity style={styles.oprbnt} onPress={change2}>
           <Text style={styles.text}> - </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.oprbnt} onPress={change}>
+        <TouchableOpacity style={styles.oprbnt} onPress={change3}>
           <Text style={styles.text}> * </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.oprbnt} onPress={change}>
+        <TouchableOpacity style={styles.oprbnt} onPress={change4}>
           <Text style={styles.text}> / </Text>
         </TouchableOpacity>
 
       </SafeAreaView>
 
       <SafeAreaView>
+        <Text style={styles.text}>O RESULTADO É:</Text>
         <Text style={styles.text}>{result}</Text>
       </SafeAreaView>
+
+
       <StatusBar/>
     </SafeAreaView>
   );
@@ -108,16 +116,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize:40,
     fontWeight: 'bold',
-    top:-300
+    top:-250
   },
   opr:{
     color: '#fff',
     fontSize:30,
-    paddingHorizontal:30,
+    paddingHorizontal:20,
     borderWidth: 3,
-    borderRadius:50,
+    borderRadius:40,
     marginHorizontal: 20,
     borderColor: '#ff0000',
+    textAlign: 'center'
   },
   text:{
     color: '#fff',
@@ -132,16 +141,7 @@ const styles = StyleSheet.create({
     height: 50,
     top: -200,
   },
-  textinput1:{
-    color: '#fff',
-    fontSize:20,
-    textAlign: 'center',
-    width: 70,
-    borderWidth: 3,
-    borderRadius: 5,
-    borderColor: '#ff0000'
-  },
-  textinput2:{
+  textinput:{
     color: '#fff',
     fontSize:20,
     textAlign: 'center',
